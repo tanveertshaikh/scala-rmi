@@ -9,7 +9,7 @@ import java.rmi.registry.LocateRegistry
  */
 
 //main-class
-object Client extends App {
+object RMIClient extends App {
 
   //Client URL created using rmi://localhost:port/service
   val clientURL = s"rmi://127.0.0.1:1234/test"
@@ -25,7 +25,7 @@ object Client extends App {
    * Client searches for server object reference in RMI registry
    * Therefore, this lookup should always be done after the server is running
    */
-  val server = registry.lookup(clientURL).asInstanceOf[ServerInterface]
+  val server = registry.lookup(clientURL).asInstanceOf[RMIServerInterface]
 
   val point1 = new Point(10, 20)
   point1.move(2, 4)
@@ -35,5 +35,7 @@ object Client extends App {
    * Remote method is invoked - inspectObject on Server object
    * The remote object is passed by reference, not by copying the actual remote implementation
    */
-  server.inspectObject(point1, point2)
+  val returnedPoint = server.inspectObject(point1, point2)
+  println("Point x location : " + returnedPoint.x)
+  println("Point y location : " + returnedPoint.y)
 }
