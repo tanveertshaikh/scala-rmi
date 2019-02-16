@@ -15,6 +15,8 @@ object Server extends App with ServerInterface {
   val serverURL = s"rmi://127.0.0.1:1234/test"
   val stub = UnicastRemoteObject.exportObject(this, 1234)
   val registry = LocateRegistry.createRegistry(1234)
+
+  //passing URL instead of string tag identifier while binding the stub containing the server object to the registry
   registry.rebind(serverURL, stub)
 
   //The remote method being invoked
